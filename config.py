@@ -13,7 +13,7 @@ BOT_TOKENS = os.getenv("BOT_TOKENS", "7790318908:AAEA8DHADYfxSc45sqeOVBzy2CePWu1
 BOT_TOKENS = [token.strip() for token in BOT_TOKENS if token.strip() != ""]
 
 # List of Premium Telegram Account Pyrogram String Sessions used for file upload/download operations
-STRING_SESSIONS = os.getenv("STRING_SESSIONS", "AQE_fF4AGjsx8o6i7kHuCBtzCKArdozC5VdbUipkSjlClVaFU2IABZLTJnmVyqJB_7M05qpD2xB8GvZ2RsZRft3KHrMLJbd7_L6npXLQBbsuUuTJDRr4nRyAmqlHGeompNFaAzzevn3ArTBK3NKd9zqA6EZ1bOP8gknYYmZoqZ2rwhtlH2CfdC0OvTNA1UbNpLmZIogOjEdudVmZWehhak9qX7t0fymqTQTdYs9Efqb0tDODWyP3gGZPz69QCLn8CM28el7vwPm6RlEq4h9rP2fbiTjVx_NTDPhZQT8EBn7p1aaMP1grKsxNxhT8-LpVbMRgnUz_qw1jp8cxndtMjoLWaf_6kQAAAAFZFXRRAA").strip(", ").split(",")
+STRING_SESSIONS = os.getenv("STRING_SESSIONS", "").strip(", ").split(",")
 STRING_SESSIONS = [
     session.strip() for session in STRING_SESSIONS if session.strip() != ""
 ]
