@@ -23,7 +23,7 @@ STORAGE_CHANNEL = int(os.getenv("STORAGE_CHANNEL", "-1002324505147"))  # Your st
 
 # Message ID of a file in the storage channel used for storing database backups
 DATABASE_BACKUP_MSG_ID = int(
-    os.getenv("DATABASE_BACKUP_MSG_ID", "3")
+    os.getenv("DATABASE_BACKUP_MSG_ID", "26")
 )  # Message ID for database backup
 
 # Password used to access the website's admin panel
