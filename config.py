@@ -27,7 +27,7 @@ DATABASE_BACKUP_MSG_ID = int(
 )  # Message ID for database backup
 
 # Password used to access the website's admin panel
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "SurajMahato")  # Default to "admin" if not set
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "SMxDrive")  # Default to "admin" if not set
 
 # Determine the maximum file size (in bytes) allowed for uploading to Telegram
 # 1.98 GB if no premium sessions are provided, otherwise 3.98 GB
@@ -56,5 +56,5 @@ if MAIN_BOT_TOKEN.strip() == "":
     MAIN_BOT_TOKEN = None
 
 # List of Telegram User IDs who have admin access to the bot mode
-TELEGRAM_ADMIN_IDS = os.getenv("TELEGRAM_ADMIN_IDS", "6140243372").strip(", ").split(",")
+TELEGRAM_ADMIN_IDS = os.getenv("TELEGRAM_ADMIN_IDS", "").strip(", ").split(",")
 TELEGRAM_ADMIN_IDS = [int(id) for id in TELEGRAM_ADMIN_IDS if id.strip() != ""]
