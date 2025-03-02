@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple HTML5 Video Player</title>
+    <title>TG Drive - Video Player</title>
+
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
         body {
             display: flex;
@@ -28,7 +31,7 @@
             max-width: 800px;
         }
 
-        .copy-button, .external-player-button {
+        .copy-button {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
@@ -39,188 +42,75 @@
             transition: background-color 0.3s ease;
         }
 
-        .copy-button:hover, .external-player-button:hover {
+        .copy-button:hover {
             background-color: #0056b3;
-        }
-
-        #copy-feedback {
-            margin-left: 10px;
-            color: green;
         }
     </style>
 </head>
+
 <body>
 
     <div class="video-container">
-        <video id="my-player" controls preload="auto" class="video-js vjs-fluid">
-            <source id="video-src" src="" type="video/mp4">
-            Your browser does not support the video tag.
+        <video id="player" class="js-player" controls>
+            <source id="video-src" src="" type="video/mp4" />
         </video>
     </div>
 
     <div class="buttons-container">
-        <button class="copy-button" aria-label="Copy Stream URL" onclick="copyStreamUrl()">Copy Stream URL</button>
-        <button class="copy-button" aria-label="Copy Download URL" onclick="copyDownloadUrl()">Copy Download URL</button>
-        <button class="external-player-button" aria-label="Open in VLC" onclick="openExternalPlayer('vlc')">Open in VLC</button>
-        <button class="external-player-button" aria-label="Open in Playit" onclick="openExternalPlayer('playit')">Open in Playit</button>
-        <button class="external-player-button" aria-label="Open in MX Player" onclick="openExternalPlayer('mxplayer')">Open in MX Player</button>
-        <span id="copy-feedback"></span>
+        <button class="copy-button" onclick="copyStreamUrl()">Copy Stream URL</button>
+        <button class="copy-button" onclick="copyDownloadUrl()">Copy Download URL</button>
     </div>
 
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
     <script>
         const downloadUrl = (new URL(window.location.href)).searchParams.get('url');
-        const videoPlayer = document.getElementById('my-player');
+        document.getElementById('video-src').src = downloadUrl;
 
-        if (downloadUrl) {
-            videoPlayer.src = downloadUrl;
-        } else {
-            videoPlayer.innerHTML = "Video URL not provided.";
-            document.querySelector('.copy-button:nth-child(1)').disabled = true;
-            document.querySelector('.copy-button:nth-child(2)').disabled = true;
-            document.querySelectorAll('.external-player-button').forEach(button => button.disabled = true);
-        }
+        const player = new Plyr('#player');
 
-        function copyTextToClipboard(text, button) {
+        function copyTextToClipboard(text) {
             if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text)
-                    .then(() => showFeedback("Link copied!", button))
-                    .catch(err => {
-                        console.error('Could not copy text: ', err);
-                        fallbackCopyTextToClipboard(text, button);
-                    });
+                navigator.clipboard.writeText(text).then(function () {
+                    alert('Link copied to clipboard!');
+                }).catch(function (err) {
+                    console.error('Could not copy text: ', err);
+                    fallbackCopyTextToClipboard(text);
+                });
             } else {
-                fallbackCopyTextToClipboard(text, button);
+                fallbackCopyTextToClipboard(text);
             }
         }
 
-        function fallbackCopyTextToClipboard(text, button) {
+        function fallbackCopyTextToClipboard(text) {
             const textArea = document.createElement('textarea');
             textArea.value = text;
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
+
             try {
                 const successful = document.execCommand('copy');
                 if (successful) {
-                    showFeedback("Link copied!", button);
+                    alert('Link copied to clipboard!');
                 } else {
-                    showFeedback("Failed to copy.", button);
+                    alert('Failed to copy the link.');
                 }
             } catch (err) {
                 console.error('Fallback: Oops, unable to copy', err);
             }
+
             document.body.removeChild(textArea);
         }
 
-        function showFeedback(message, button) {
-            const feedbackSpan = document.getElementById('copy-feedback');
-            feedbackSpan.textContent = message;
-            button.appendChild(feedbackSpan);
-            setTimeout(() => {
-                feedbackSpan.textContent = "";
-                button.removeChild(feedbackSpan);
-            }, 2000);
-        }
-
         function copyStreamUrl() {
-            copyTextToClipboard(window.location.href, document.querySelector('.copy-button:nth-child(1)'));
+            copyTextToClipboard(window.location.href);
         }
 
         function copyDownloadUrl() {
-            copyTextToClipboard(downloadUrl, document.querySelector('.copy-button:nth-child(2)'));
-        }
-
-        function openExternalPlayer(player) {
-            if (!downloadUrl) return;
-
-            let uri;
-            switch (player) {
-                case 'vlc':
-                    uri = 'intent://' + encodeURIComponent(downloadUrl) + '#Intent;package=org.videolan.vlc;scheme=http;end';
-                    break;
-                case 'playit':
-                    //Playit protocol is unstable and changes. using an intent is more reliable.
-                    uri = 'intent://' + encodeURIComponent(downloadUrl) + '#Intent;package=com.playit.videoplayer;scheme=http;end';
-                    break;
-                case 'mxplayer':
-                    uri = 'intent://' + encodeURIComponent(downloadUrl) + '#Intent;package=com.mxtech.videoplayer.ad;scheme=http;end';
-                    break;
-                default:
-                    return;
-            }
-
-            window.location.href = uri;
+            copyTextToClipboard(downloadUrl);
         }
     </script>
 
-<style>
-.Arpian-ads {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	min-height: 70px;
-	max-height: 90px; /* modify as per your website design*/
-	padding: 5px 0;
-	box-shadow: 0 -6px 18px 0 rgba(9,32,76,.1);
-	-webkit-transition: all .1s ease-in;
-	transition: all .1s ease-in;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: #fefefe;
-	z-index: 20;
-}
-
-.Arpian-ads-close {
-	width: 30px;
-	height: 30px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 12px 0 0;
-	position: absolute;
-	right: 0;
-	top: -30px;
-	background-color: #fefefe;
-	box-shadow: 0 -6px 18px 0 rgba(9,32,76,.08);
-}
-
-.Arpian-ads .Arpian-ads-close svg {
-	width: 22px;
-	height: 22px;
-	fill: #000;
-}
-
-.Arpian-ads .Arpian-ads-content {
-	overflow: hidden;
-	display: block;
-	position: relative;
-	text-align:center;
-	height: 70px;
-	width: 100%;
-	margin-right: 10px;
-	margin-left: 10px;
-}
-</style>
-
-
-<div class='Arpian-ads' id='Arpian-ads'>
-	<div class='Arpian-ads-close' onclick='document.getElementById(&quot;Arpian-ads&quot;).style.display=&quot;none&quot;'>
-		<svg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'>
-			<path d='M278.6 256l68.2-68.2c6.2-6.2 6.2-16.4 0-22.6-6.2-6.2-16.4-6.2-22.6 0L256 233.4l-68.2-68.2c-6.2-6.2-16.4-6.2-22.6 0-3.1 3.1-4.7 7.2-4.7 11.3 0 4.1 1.6 8.2 4.7 11.3l68.2 68.2-68.2 68.2c-3.1 3.1-4.7 7.2-4.7 11.3 0 4.1 1.6 8.2 4.7 11.3 6.2 6.2 16.4 6.2 22.6 0l68.2-68.2 68.2 68.2c6.2 6.2 16.4 6.2 22.6 0 6.2-6.2 6.2-16.4 0-22.6L278.6 256z' />
-		</svg>
-	</div>
-	<div class='Arpian-ads-content'> <script type="text/javascript">
-	atOptions = {
-		'key' : 'be00741d02a9feb0375176e0a248ff13',
-		'format' : 'iframe',
-		'height' : 60,
-		'width' : 468,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/be00741d02a9feb0375176e0a248ff13/invoke.js"></script> </div>
-</div>
 </body>
+
 </html>
