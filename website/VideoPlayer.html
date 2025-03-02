@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suraj Mahato Player</title>
+    <title>Simple HTML5 Video Player</title>
     <style>
         body {
             display: flex;
@@ -66,97 +66,7 @@
         <button class="external-player-button" aria-label="Open in MX Player" onclick="openExternalPlayer('mxplayer')">Open in MX Player</button>
         <span id="copy-feedback"></span>
     </div>
-<a href="https://www.effectiveratecpm.com/min324jv1p?key=f1ef2b7d5d99b1cdd13a0900327f36aa">
-  <div id="ad-container">
-    <div id="ad-content">
-      
- 
-<script type="text/javascript">
-	atOptions = {
-		'key' : '012c8b1e82957c7ffc4bd52c41c7eeab',
-		'format' : 'iframe',
-		'height' : 250,
-		'width' : 300,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/012c8b1e82957c7ffc4bd52c41c7eeab/invoke.js"></script>
- 
- 
-    </div>
-    <div id="cut-button">X</div>
-  </div>
-</a>
 
-<style>
-  #ad-container {
-    position: fixed;
-    width: 90%;
-    height: 100vh;
-    display: flex;
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
-  }
-
-  #ad-content {
-    background-color: white;
-    width: 300px;
-    height: 250px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.3);
-    margin: 50% auto;
-    text-align: center;
-  }
-
-  #cut-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: black;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 50px;
-    cursor: pointer;
-    user-select: none;
-  }
-</style>
-<!-- codes from dktechnozone.in -->
-<script>
-  const adContainer = document.getElementById("ad-container");
-const cutButton = document.getElementById("cut-button");
-
-// Check for existing session storage item
-const adClosed = sessionStorage.getItem("adClosed");
-if (adClosed) {
-  adContainer.style.display = "none";
-} else {
-  // Set timeout to hide ad after 10 seconds
-  setTimeout(() => {
-    adContainer.style.display = "none";
-    sessionStorage.setItem("adClosed", true);
-  }, 10000);
-}
-
-adContainer.addEventListener("click", () => {
-  adContainer.style.display = "none";
-  sessionStorage.setItem("adClosed", true);
-});
-
-cutButton.addEventListener("click", (event) => {
-  event.stopPropagation();
-  adContainer.style.display = "none";
-  sessionStorage.setItem("adClosed", true);
-});
-
-window.onbeforeunload = function() {
-  if (adContainer.style.display === "none") {
-    sessionStorage.setItem("adClosed", true);
-  }
-};
-</script>
-
-<!-- copyright dktechnozone.in -->
     <script>
         const downloadUrl = (new URL(window.location.href)).searchParams.get('url');
         const videoPlayer = document.getElementById('my-player');
@@ -226,10 +136,11 @@ window.onbeforeunload = function() {
             let uri;
             switch (player) {
                 case 'vlc':
-                    uri = 'vlc://' + encodeURIComponent(downloadUrl);
+                    uri = 'intent://' + encodeURIComponent(downloadUrl) + '#Intent;package=org.videolan.vlc;scheme=http;end';
                     break;
                 case 'playit':
-                    uri = 'playit://' + encodeURIComponent(downloadUrl);
+                    //Playit protocol is unstable and changes. using an intent is more reliable.
+                    uri = 'intent://' + encodeURIComponent(downloadUrl) + '#Intent;package=com.playit.videoplayer;scheme=http;end';
                     break;
                 case 'mxplayer':
                     uri = 'intent://' + encodeURIComponent(downloadUrl) + '#Intent;package=com.mxtech.videoplayer.ad;scheme=http;end';
