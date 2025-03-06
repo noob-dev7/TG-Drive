@@ -17,7 +17,7 @@ You can use this bot to upload files to your SM Drive website directly instead o
 
 📤 **How To Upload Files:** Send a file to this bot and it will be uploaded to your SM Drive website. You can also set a folder for file uploads using /set_folder command.
 
-JOIN OUR CHANNEL [SM Drive's Bot Mode](https://t.me/smnetworkk/107)
+JOIN OUR CHANNEL [SM Drive's Bot Mode](https://t.me/smnetworkk/141)
 """
 
 SET_FOLDER_PATH_CACHE = {}  # Cache to store folder path for each folder id
