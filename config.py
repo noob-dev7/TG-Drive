@@ -19,7 +19,7 @@ STRING_SESSIONS = [
 ]
 
 # Chat ID of the Telegram storage channel where files will be stored
-STORAGE_CHANNEL = int(os.getenv("STORAGE_CHANNEL", "-1002420187301"))  # Your storage channel's chat ID
+STORAGE_CHANNEL = int(os.getenv("STORAGE_CHANNEL", "-1002691162902"))  # Your storage channel's chat ID
 
 # Message ID of a file in the storage channel used for storing database backups
 DATABASE_BACKUP_MSG_ID = int(
@@ -56,5 +56,5 @@ if MAIN_BOT_TOKEN.strip() == "":
     MAIN_BOT_TOKEN = None
 
 # List of Telegram User IDs who have admin access to the bot mode
-TELEGRAM_ADMIN_IDS = os.getenv("TELEGRAM_ADMIN_IDS", "6140243372").strip(", ").split(",")
+TELEGRAM_ADMIN_IDS = os.getenv("TELEGRAM_ADMIN_IDS", "5750666926").strip(", ").split(",")
 TELEGRAM_ADMIN_IDS = [int(id) for id in TELEGRAM_ADMIN_IDS if id.strip() != ""]
